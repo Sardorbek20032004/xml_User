@@ -15,13 +15,13 @@ import java.util.concurrent.Callable;
 
 public class CardService {
     private static final String PATH = "card.xml";
-    ArrayList<Card> cards;
+    Cards cards = new Cards();
     IOFileReaderAndWriter ioFileReaderAndWriter = new IOFileReaderAndWriter();
 
     public Card add(Card card) {
-        cards = ioFileReaderAndWriter.read(PATH, Card.class);
+        cards.setCards(ioFileReaderAndWriter.read(PATH, Card.class));
         if (hasCard(card)) {
-            cards.add(card);
+            cards.getCards().add(card);
             ioFileReaderAndWriter.write(PATH, cards);
             return card;
         }
@@ -29,7 +29,7 @@ public class CardService {
     }
 
     private boolean hasCard(Card myCard) {
-        for (Card card : cards) {
+        for (Card card : cards.getCards()) {
             if (card.getCardNumber().equals(myCard.getCardNumber())) {
                 return false;
             }
@@ -38,9 +38,9 @@ public class CardService {
     }
 
     public ArrayList<Card> list(UUID id) {
-        cards = ioFileReaderAndWriter.read(PATH, Card.class);
+        cards.setCards(ioFileReaderAndWriter.read(PATH, Card.class));
         ArrayList<Card> myCard = new ArrayList<>();
-        for (Card card : cards) {
+        for (Card card : cards.getCards()) {
             if (card.getUserId().equals(id)) {
                 myCard.add(card);
             }

@@ -11,12 +11,12 @@ import java.util.List;
 public class UserService {
 IOFileReaderAndWriter ioFileReaderAndWriter = new IOFileReaderAndWriter();
     private static final String PATH = "user.xml";
-    ArrayList<User> users;
+    Users users = new Users();
 
     public User add(User user) {
-        users = ioFileReaderAndWriter.read(PATH,User.class);
+        users.setUsers(ioFileReaderAndWriter.read(PATH,User.class));
         if (hasUser(user)) {
-            users.add(user);
+            users.getUsers().add(user);
             ioFileReaderAndWriter.write(PATH,users);
             return user;
         }
@@ -24,7 +24,7 @@ IOFileReaderAndWriter ioFileReaderAndWriter = new IOFileReaderAndWriter();
     }
 
     private boolean hasUser(User user) {
-        for (User user1 : users) {
+        for (User user1 : users.getUsers()) {
             if (user1.getUserName().equals(user.getUserName())) {
                 return false;
             }
@@ -32,8 +32,8 @@ IOFileReaderAndWriter ioFileReaderAndWriter = new IOFileReaderAndWriter();
         return true;
     }
     public User login(String userName,String  password){
-        users= ioFileReaderAndWriter.read(PATH, User.class);
-        for (User user1: users){
+        users.setUsers(ioFileReaderAndWriter.read(PATH, User.class));
+        for (User user1: users.getUsers()){
             if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)){
                 return user1;
             }
