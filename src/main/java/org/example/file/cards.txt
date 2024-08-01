@@ -1,0 +1,15 @@
+[ {
+  "id" : "b2d21fa4-da2a-4a9b-b357-fb36938112a1",
+  "userId" : "4f6d7b8a-8565-4017-9551-538834bc2230",
+  "name" : "Humo",
+  "cardNumber" : "9860",
+  "expireDate" : "12:26",
+  "amount" : 300.0
+}, {
+  "id" : "7b347053-df4b-4f20-9330-b77c5d722bde",
+  "userId" : "bda761eb-4836-48ce-89cd-ce9446fbdb0a",
+  "name" : "uzCard",
+  "cardNumber" : "8600",
+  "expireDate" : "12:23",
+  "amount" : 300.0
+} ]

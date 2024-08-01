@@ -1,0 +1,14 @@
+<users>
+  <user id="4f6d7b8a-8565-4017-9551-538834bc2230">
+    <name>qw</name>
+    <userName>qw</userName>
+    <password>qw</password>
+    <age>12</age>
+  </user>
+  <user id="bda761eb-4836-48ce-89cd-ce9446fbdb0a">
+    <name>Sardorbek</name>
+    <userName>sardor0304</userName>
+    <password>123</password>
+    <age>21</age>
+  </user>
+</users>

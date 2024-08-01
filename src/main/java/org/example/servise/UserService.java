@@ -1,29 +1,23 @@
 package org.example.servise;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.example.model.User;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import org.example.model.wrapper.Users;
+import org.example.utils.XmlSerializableDeSerializableUtil;
 
 public class UserService {
-IOFileReaderAndWriter ioFileReaderAndWriter = new IOFileReaderAndWriter();
-    private static final String PATH = "user.xml";
-    Users users = new Users();
-
+    private static final String PATH = "/Users/sardor/Desktop/xml_User/src/main/java/org/example/file/user.xml";
     public User add(User user) {
-        users.setUsers(ioFileReaderAndWriter.read(PATH,User.class));
-        if (hasUser(user)) {
+        Users users = new Users();
+        users.setUsers(XmlSerializableDeSerializableUtil.read(PATH,User.class));
+        if (hasUser(user,users)) {
             users.getUsers().add(user);
-            ioFileReaderAndWriter.write(PATH,users);
+            XmlSerializableDeSerializableUtil.write(PATH,users);
             return user;
         }
         return null;
     }
 
-    private boolean hasUser(User user) {
+    private boolean hasUser(User user,Users users) {
         for (User user1 : users.getUsers()) {
             if (user1.getUserName().equals(user.getUserName())) {
                 return false;
@@ -32,7 +26,8 @@ IOFileReaderAndWriter ioFileReaderAndWriter = new IOFileReaderAndWriter();
         return true;
     }
     public User login(String userName,String  password){
-        users.setUsers(ioFileReaderAndWriter.read(PATH, User.class));
+        Users users = new Users();
+        users.setUsers(XmlSerializableDeSerializableUtil.read(PATH, User.class));
         for (User user1: users.getUsers()){
             if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)){
                 return user1;

@@ -1,50 +1,64 @@
 package org.example.servise;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.example.model.Card;
-import org.example.model.User;
+import org.example.utils.GsonReadWriteUtil;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 public class CardService {
-    private static final String PATH = "card.xml";
-    Cards cards = new Cards();
-    IOFileReaderAndWriter ioFileReaderAndWriter = new IOFileReaderAndWriter();
+    private static final String PATH = "/Users/sardor/Desktop/xml_User/src/main/java/org/example/file/cards.txt";
 
     public Card add(Card card) {
-        cards.setCards(ioFileReaderAndWriter.read(PATH, Card.class));
-        if (hasCard(card)) {
-            cards.getCards().add(card);
-            ioFileReaderAndWriter.write(PATH, cards);
+        ArrayList<Card> cards = GsonReadWriteUtil.readFromFile(PATH, new TypeReference<>() {});
+        if (hasCard(card, cards)) {
+            cards.add(card);
+            GsonReadWriteUtil.writeToFile(cards, PATH);
             return card;
         }
         return null;
     }
 
-    private boolean hasCard(Card myCard) {
-        for (Card card : cards.getCards()) {
+     boolean hasCard(Card myCard, ArrayList<Card> cards) {
+        for (Card card : cards) {
             if (card.getCardNumber().equals(myCard.getCardNumber())) {
                 return false;
             }
         }
         return true;
     }
+    public  Card login(String cardNumber) {
+        ArrayList<Card> cards = GsonReadWriteUtil.readFromFile(PATH, new TypeReference<>() {});
+        for (Card card : cards) {
+            if (card.getCardNumber().equals(cardNumber)) {
+                return card;
+            }
+        }
+        return null;
+    }
 
     public ArrayList<Card> list(UUID id) {
-        cards.setCards(ioFileReaderAndWriter.read(PATH, Card.class));
+        ArrayList<Card> cards = GsonReadWriteUtil.readFromFile(PATH, new TypeReference<>() {
+        });
         ArrayList<Card> myCard = new ArrayList<>();
-        for (Card card : cards.getCards()) {
+        for (Card card : cards) {
             if (card.getUserId().equals(id)) {
                 myCard.add(card);
             }
         }
         return myCard;
+    }
+    public void p2p(String toCardNumber,String fromCardNumber,double amount){
+        ArrayList<Card> cards = GsonReadWriteUtil.readFromFile(PATH, new TypeReference<>() {});
+        for (Card card: cards){
+            if (card.getCardNumber().equals(toCardNumber)){
+                card.setAmount(card.getAmount() - amount);
+            }
+            if (card.getCardNumber().equals(fromCardNumber)){
+                card.setAmount(card.getAmount() + amount);
+            }
+        }
+        GsonReadWriteUtil.writeToFile(cards,PATH);
     }
 }

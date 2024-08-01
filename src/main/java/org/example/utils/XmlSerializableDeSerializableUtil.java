@@ -1,19 +1,21 @@
-package org.example.servise;
+package org.example.utils;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.experimental.UtilityClass;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 
-public class IOFileReaderAndWriter {
+@UtilityClass
+public class XmlSerializableDeSerializableUtil {
 
     XmlMapper xmlMapper = new XmlMapper();
 
-    public <T> ArrayList<T> read(String PATH, Class<T> clazz) {
+    public static <T> ArrayList<T> read(String PATH, Class<T> clazz) {
         File file = new File(PATH);
         ArrayList<T> list = new ArrayList<>();
         if (file.exists()) {
@@ -28,13 +30,13 @@ public class IOFileReaderAndWriter {
         return list.size() != 0 ? list : new ArrayList<>();
     }
 
-    public <T> void write(String PATH, T t) {
+    public static <T> void write(String PATH, T t) {
         xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {
             String str = xmlMapper.writeValueAsString(t);
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(PATH));
             bufferedWriter.write(str);
-            bufferedWriter.close(); // Faylni yopishni unutmaslik kerak
+            bufferedWriter.close();
         } catch (IOException e) {
 
         }
